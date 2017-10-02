@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Group Ledger</h1>
+    <p class="lead">Group Ledger is a free and (hopefully) easy way to keep track of who owes who in a group.</p>
+    <p>@Html.ActionLink("Sign Up »", "Register", "Account", routeValues: null, htmlAttributes: new { @class = "btn btn-primary btn-lg" })</p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Continuous Reports</h2>
+        <p>
+            Check how much you owe others and how much others owe you at any time!
+        </p>
+    </div>
+    <div class="col-md-4">
+        <h2>Reduce Headache</h2>
+        <p>With Group Ledger, you don't need to worry about people forgetting to pay debts since all transactions are public!</p>
+    </div>
+    <div class="col-md-4">
+        <h2>Privacy</h2>
+        <p>Despite all transactions being public, reasons for transactions are not recorded.</p>
+    </div>
+</div>
+

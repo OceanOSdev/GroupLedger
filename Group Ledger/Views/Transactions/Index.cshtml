@@ -1,0 +1,94 @@
+﻿@model Group_Ledger.Models.UserTransactionViewModel
+
+@{
+    ViewBag.Title = "Your Transaction Info";
+    var transFrom = Model.TransactionsFromUser.ToList();
+    var transTo = Model.TransactionsToUser.ToList();
+}
+
+<h2>Your Transaction Info</h2>
+
+<p>
+    @Html.ActionLink("Add Transaction", "Create", "Transactions", routeValues: null, htmlAttributes: new{ @class = "btn btn-primary btn-lg"})
+</p>
+<div class="row">
+    <div class="col-md-10">
+        <table class="table">
+            <caption>
+                @Html.DisplayNameFor(model => model.TransactionsFromUser)
+            </caption>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.TransactionsFromUser.FirstOrDefault().To.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TransactionsFromUser.FirstOrDefault().To.LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TransactionsFromUser.FirstOrDefault().Amount)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in transFrom)
+            {
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.To.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.To.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Amount)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-10">
+        <table class="table">
+            <caption>
+                @Html.DisplayNameFor(model => model.TransactionsToUser)
+            </caption>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.TransactionsToUser.FirstOrDefault().From.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TransactionsToUser.FirstOrDefault().From.LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TransactionsToUser.FirstOrDefault().Amount)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in transTo)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.From.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.From.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Amount)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
