@@ -19,10 +19,10 @@
             </caption>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.TransactionsFromUser.FirstOrDefault().To.FirstName)
+                    @Html.DisplayNameFor(model => model.TransactionsFromUser.FirstOrDefault().To.Person.FirstName)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.TransactionsFromUser.FirstOrDefault().To.LastName)
+                    @Html.DisplayNameFor(model => model.TransactionsFromUser.FirstOrDefault().To.Person.LastName)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.TransactionsFromUser.FirstOrDefault().Amount)
@@ -35,10 +35,10 @@
 
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.To.FirstName)
+                        @Html.DisplayFor(modelItem => item.To.Person.FirstName)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.To.LastName)
+                        @Html.DisplayFor(modelItem => item.To.Person.LastName)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Amount)
@@ -60,10 +60,10 @@
             </caption>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.TransactionsToUser.FirstOrDefault().From.FirstName)
+                    @Html.DisplayNameFor(model => model.TransactionsToUser.FirstOrDefault().From.Person.FirstName)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.TransactionsToUser.FirstOrDefault().From.LastName)
+                    @Html.DisplayNameFor(model => model.TransactionsToUser.FirstOrDefault().From.Person.LastName)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.TransactionsToUser.FirstOrDefault().Amount)
@@ -75,10 +75,10 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.From.FirstName)
+                        @Html.DisplayFor(modelItem => item.From.Person.FirstName)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.From.LastName)
+                        @Html.DisplayFor(modelItem => item.From.Person.LastName)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Amount)

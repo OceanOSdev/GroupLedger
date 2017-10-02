@@ -24,7 +24,7 @@ namespace Group_Ledger.Controllers
             var currentId = User.Identity.GetUserId();
             var transactionsFrom = db.Transactions.Where(t => t.From.Id == currentId);
             var transactionsTo = db.Transactions.Where(t => t.To.Id == currentId);
-            return View(new UserTransactionViewModel{TransactionsFromUser = transactionsFrom, TransactionsToUser = transactionsTo});
+            return View(new UserTransactionViewModel { TransactionsFromUser = transactionsFrom, TransactionsToUser = transactionsTo });
         }
 
         // GET: Transactions/Details/5
@@ -59,14 +59,63 @@ namespace Group_Ledger.Controllers
             var currentId = User.Identity.GetUserId();
             var currentUser = db.Users.Find(currentId);
 
-            if (!db.Users.Any(u => u.FirstName.ToLower() == transaction.ToFirstName.ToLower() &&
-                                   u.LastName.ToLower() == transaction.ToLastName.ToLower()))
-                return Content("Invalid User");
             if (ModelState.IsValid)
             {
+                if (!db.Users.Any(u => u.Person.FirstName.ToLower() == transaction.ToFirstName.ToLower() &&
+                                       u.Person.LastName.ToLower() == transaction.ToLastName.ToLower()))
+                    return Content("Invalid User");
+
                 trans.Verified = false;
-                var toUser = db.Users.First(u => u.FirstName.ToLower() == transaction.ToFirstName.ToLower() &&
-                                               u.LastName.ToLower() == transaction.ToLastName.ToLower());
+                var toUser = db.Users.First(u => u.Person.FirstName.ToLower() == transaction.ToFirstName.ToLower() &&
+                                               u.Person.LastName.ToLower() == transaction.ToLastName.ToLower());
+
+                var transactions = db.Transactions.ToList();
+                // TODO: Refactor and optimize
+                // check if a transaction exists that has the same flow of money
+                if (transactions.Any(t => t.To.Person.Equals(toUser.Person) && t.From.Person.Equals(currentUser.Person)))
+                {
+                    // if such a transaction exists, just add the value of the amount to the original
+                    var tran = transactions.FirstOrDefault(t => t.To.Person.Equals(toUser.Person) && t.From.Person.Equals(currentUser.Person));
+                    tran.Amount += transaction.Amount;
+                    Edit(tran);
+                    return RedirectToAction("Index");
+                }
+
+                // check if a transaction exists that has the flow of money opposite from this one
+                if (transactions.Any(t => t.To.Person.Equals(currentUser.Person) && t.From.Person.Equals(toUser.Person)))
+                {
+                    var opTran = transactions.First(t => t.To.Person.Equals(currentUser.Person) && t.From.Person.Equals(toUser.Person));
+                    opTran.Amount -= transaction.Amount; // subtract the amount you owe them from the amount they owe you
+                    // if they still owe you then just update the amount they owe you
+                    if (opTran.Amount > 0)
+                    {
+                        Edit(opTran);
+                        return RedirectToAction("Index");
+                    }
+                    if (opTran.Amount == 0)
+                    {
+                        // if the net amount is 0, then both transactions cancel out and should be verified.
+                        opTran.Verified = true;
+                        Edit(opTran);
+                        // Verify the original transaction as well.
+                        var tran = transactions.FirstOrDefault(t => t.To.Person.Equals(toUser.Person) && t.From.Person.Equals(currentUser.Person));
+                        if (tran != null)
+                        {
+                            tran.Verified = true;
+                            Edit(tran);
+                        }
+                        return RedirectToAction("Index");
+                    }
+                    // if you still end up owing them after subtracting the difference
+                    // just add the transaction that states how much you owe them
+                    // (this works fine since it will just fall through)
+                    transaction.Amount = -1 * opTran.Amount;
+                    // then verify other transaction
+                    opTran.Verified = true;
+                    Edit(opTran);
+
+                }
+
                 trans.To = toUser;
                 trans.From = currentUser;
                 trans.Amount = transaction.Amount;
@@ -104,6 +153,8 @@ namespace Group_Ledger.Controllers
             {
                 db.Entry(transaction).State = EntityState.Modified;
                 db.SaveChanges();
+                if (transaction.Verified) // verified transactions don't need to be shown since the debts have been payed
+                    Delete(transaction.Id);
                 return RedirectToAction("Index");
             }
             return View(transaction);

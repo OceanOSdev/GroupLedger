@@ -216,10 +216,15 @@
     <Compile Include="Migrations\201710012327126_TransactionMigration.Designer.cs">
       <DependentUpon>201710012327126_TransactionMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710020539386_PersonAddition.cs" />
+    <Compile Include="Migrations\201710020539386_PersonAddition.Designer.cs">
+      <DependentUpon>201710020539386_PersonAddition.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Person.cs" />
     <Compile Include="Models\PersonViewModel.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Models\TransactionViewModel.cs" />
@@ -312,6 +317,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710012327126_TransactionMigration.resx">
       <DependentUpon>201710012327126_TransactionMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710020539386_PersonAddition.resx">
+      <DependentUpon>201710020539386_PersonAddition.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -20,7 +20,7 @@ namespace Group_Ledger.Controllers
         public IQueryable<PersonViewModel> GetApplicationUsers()
         {
 
-            return db.Users.Select(u => new PersonViewModel { FirstName = u.FirstName, LastName = u.LastName, Id = u.Id });
+            return db.Users.Select(u => new PersonViewModel { FirstName = u.Person.FirstName, LastName = u.Person.LastName, Id = u.Id });
         }
 
         // GET: api/PersonApi/5
@@ -38,9 +38,9 @@ namespace Group_Ledger.Controllers
 
         public IQueryable<PersonViewModel> GetApplicationUsers(string first, string last = "")
         {
-            var onlyProvidedFirst = db.Users.Where(u => u.FirstName.Contains(first))
-                .Select(u => new PersonViewModel { FirstName = u.FirstName, LastName = u.LastName, Id = u.Id });
-            var providedLast = db.Users.Where(u => u.FirstName.Contains(first) && u.LastName.Contains(last)).Select(u => new PersonViewModel { FirstName = u.FirstName, LastName = u.LastName, Id = u.Id });
+            var onlyProvidedFirst = db.Users.Where(u => u.Person.FirstName.Contains(first))
+                .Select(u => new PersonViewModel { FirstName = u.Person.FirstName, LastName = u.Person.LastName, Id = u.Id });
+            var providedLast = db.Users.Where(u => u.Person.FirstName.Contains(first) && u.Person.LastName.Contains(last)).Select(u => new PersonViewModel { FirstName = u.Person.FirstName, LastName = u.Person.LastName, Id = u.Id });
 
             if (last == "") return onlyProvidedFirst;
             return providedLast;
