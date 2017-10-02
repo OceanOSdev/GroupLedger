@@ -69,7 +69,7 @@ namespace Group_Ledger.Controllers
                 var toUser = db.Users.First(u => u.Person.FirstName.ToLower() == transaction.ToFirstName.ToLower() &&
                                                u.Person.LastName.ToLower() == transaction.ToLastName.ToLower());
 
-                var transactions = db.Transactions.ToList();
+                var transactions = db.Transactions.ToList(); // prevents issues accessing data stream
                 // TODO: Refactor and optimize
                 // check if a transaction exists that has the same flow of money
                 if (transactions.Any(t => t.To.Person.Equals(toUser.Person) && t.From.Person.Equals(currentUser.Person)))
@@ -158,6 +158,16 @@ namespace Group_Ledger.Controllers
                 return RedirectToAction("Index");
             }
             return View(transaction);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Verify(int id)
+        {
+            Transaction transaction = db.Transactions.Find(id);
+            transaction.Verified = true;
+            Edit(transaction);
+            return RedirectToAction("Index");
         }
 
         // GET: Transactions/Delete/5

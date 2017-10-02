@@ -14,7 +14,7 @@
 <div class="row">
     <div class="col-md-10">
         <table class="table">
-            <caption>
+            <caption style="font-weight: bold; font-size: x-large">
                 @Html.DisplayNameFor(model => model.TransactionsFromUser)
             </caption>
             <tr>
@@ -55,7 +55,7 @@
 <div class="row">
     <div class="col-md-10">
         <table class="table">
-            <caption>
+            <caption style="font-weight: bold; font-size: x-large">
                 @Html.DisplayNameFor(model => model.TransactionsToUser)
             </caption>
             <tr>
@@ -84,7 +84,7 @@
                         @Html.DisplayFor(modelItem => item.Amount)
                     </td>
                     <td>
-                        @Html.ActionLink("Details", "Details", new { id = item.Id })
+                        @Html.ActionLink("This Person Has Paid", "Verify", new { id = item.Id })
                     </td>
                 </tr>
             }
