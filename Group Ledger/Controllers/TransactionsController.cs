@@ -98,7 +98,7 @@ namespace Group_Ledger.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Verified")] Transaction transaction)
+        public ActionResult Edit([Bind(Include = "Id,Verified,Amount")] Transaction transaction)
         {
             if (ModelState.IsValid)
             {
@@ -130,6 +130,8 @@ namespace Group_Ledger.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Transaction transaction = db.Transactions.Find(id);
+            if (!transaction.Verified)
+                return Content("You cannot delete a transaction that has not been verified");
             db.Transactions.Remove(transaction);
             db.SaveChanges();
             return RedirectToAction("Index");
