@@ -154,10 +154,25 @@ namespace Group_Ledger.Controllers
                 db.Entry(transaction).State = EntityState.Modified;
                 db.SaveChanges();
                 if (transaction.Verified) // verified transactions don't need to be shown since the debts have been payed
-                    Delete(transaction.Id);
+                    DeleteConfirmed(transaction.Id);
                 return RedirectToAction("Index");
             }
             return View(transaction);
+        }
+
+        [HttpGet]
+        public ActionResult Verify(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Transaction transaction = db.Transactions.Find(id);
+            if (transaction == null)
+            {
+                return HttpNotFound();
+            }
+            return View("Index");
         }
 
         [HttpPost]
