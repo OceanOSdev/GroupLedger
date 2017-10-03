@@ -11,35 +11,35 @@
     {
         @Html.AntiForgeryToken()
 
-        <div class="form-horizontal">
+        <div class="form-horizontal col-md-10">
             <h4>Transaction</h4>
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <hr/>
+            @Html.ValidationSummary(true, "", new {@class = "text-danger"})
             <div class="form-group">
-                @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Amount, htmlAttributes: new {@class = "control-label col-md-2"})
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Amount, new {htmlAttributes = new {@class = "form-control", type="number"}})
+                    @Html.ValidationMessageFor(model => model.Amount, "", new {@class = "text-danger"})
                 </div>
             </div>
             <div class="form-group">
-                @Html.LabelFor(model => model.ToFirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.ToFirstName, htmlAttributes: new {@class = "control-label col-md-2"})
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.ToFirstName, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.ToFirstName, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.ToFirstName, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(model => model.ToFirstName, "", new {@class = "text-danger", id = "txtFirst"})
                 </div>
             </div>
             <div class="form-group">
-                @Html.LabelFor(model => model.ToLastName, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.ToLastName, htmlAttributes: new {@class = "control-label col-md-2"})
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.ToLastName, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.ToLastName, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.ToLastName, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(model => model.ToLastName, "", new {@class = "text-danger", id = "txtLast"})
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-default" />
+                    <input type="submit" value="Create" class="btn btn-primary"/>
                 </div>
             </div>
         </div>
@@ -67,7 +67,7 @@
     <script>
         $(document).ready(function () {
             var url = "../../api/personapi";
-            $('#resultTable').DataTable({
+            var table = $('#resultTable').DataTable({
                 responsive: true,
                 "processing" : true,
                 "ajax" : {
@@ -80,48 +80,13 @@
                     "data" : "LastName"
                 }]
             });
-            // Super janky way to check if inputs are
-            /*if ($('#fName').val().length && $('#fName').val() !== $('#fName').attr("placeholder")) {
-                url.concat("?first=".concat($('#fName').val()));
-                if ($('#lName').val().length && $('#lName').val() !== $('#lName').attr("placeholder")) {
-                    url.concat("&last=".concat($('#lName').val()));
 
-                }
-            }
-            $.ajax({
-                //type: "GET",
-                url: url,
-                //cache: false,
-                success: function (data) {
-                    $(".boi").html(data);
-
-                }
+            $('#resultTable tbody').on('click', 'tr', function() {
+                var data = table.row(this).data();
+                //console.log(data);
+                $('#ToFirstName').val(data["FirstName"]);
+                $('#ToLastName').val(data["LastName"]);
             });
-            $.getJSON(url,
-                function(data) {
-                    var items = [];
-                    items.push("<tr>");
-                    $.each(data[0],
-                        function(key, val) {
-                            items.push("<th>" + key + "</th>");
-                        });
-                    items.push("</tr>");
-                    $.each(data,
-                        function(key, val) {
-                            items.push("<tr>");
-                            $.each(val,
-                                function(k, v) {
-                                    items.push("<td>" + v + "</td>");
-                                });
-                            items.push("</tr>");
-                        });
-
-                    $("<table/>",
-                        {
-                            "class": "table",
-                            html: items.join("")
-                        }).appendTo("body");
-                });*/
         });
     </script>
 }

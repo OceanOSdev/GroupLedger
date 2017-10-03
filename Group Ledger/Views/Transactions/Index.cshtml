@@ -12,7 +12,7 @@
     @Html.ActionLink("Add Transaction", "Create", "Transactions", routeValues: null, htmlAttributes: new{ @class = "btn btn-primary btn-lg"})
 </p>
 <div class="row">
-    <div class="col-md-10">
+    <div class="col-md-6">
         <table class="table">
             <caption style="font-weight: bold; font-size: x-large">
                 @Html.DisplayNameFor(model => model.TransactionsFromUser)
@@ -49,9 +49,7 @@
 
         </table>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-10">
+    <div class="col-md-6">
         <table class="table">
             <caption style="font-weight: bold; font-size: x-large">
                 @Html.DisplayNameFor(model => model.TransactionsToUser)
