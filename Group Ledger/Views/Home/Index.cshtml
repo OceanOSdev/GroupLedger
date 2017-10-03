@@ -1,11 +1,23 @@
 ﻿@{
     ViewBag.Title = "Home Page";
+    if (Request.IsAuthenticated)
+    {
+        ViewBag.LinkText = "See Your Transactions »";
+        ViewBag.ActionName = "Index";
+        ViewBag.ControllerName = "Transactions";
+    }
+    else
+    {
+        ViewBag.LinkText = "Sign Up »";
+        ViewBag.ActionName = "Register";
+        ViewBag.ControllerName = "Account";
+    }
 }
 
 <div class="jumbotron">
     <h1>Group Ledger</h1>
     <p class="lead">Group Ledger is a free and (hopefully) easy way to keep track of who owes who in a group.</p>
-    <p>@Html.ActionLink("Sign Up »", "Register", "Account", routeValues: null, htmlAttributes: new { @class = "btn btn-primary btn-lg" })</p>
+    <p>@Html.ActionLink((string)ViewBag.LinkText, (string)ViewBag.ActionName, (string)ViewBag.ControllerName, routeValues: null, htmlAttributes: new { @class = "btn btn-primary btn-lg" })</p>
 </div>
 
 <div class="row">
